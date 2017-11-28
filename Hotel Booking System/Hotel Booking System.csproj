@@ -46,6 +46,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -53,6 +59,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -142,10 +150,38 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\Admin\AdminController.cs" />
+    <Compile Include="Controllers\Admin\FacilitiesController.cs" />
+    <Compile Include="Controllers\Admin\FacilityTypesController.cs" />
+    <Compile Include="Controllers\Admin\PaymentMethodsController.cs" />
+    <Compile Include="Controllers\Admin\RoomBandsController.cs" />
+    <Compile Include="Controllers\Admin\RoomPricesController.cs" />
+    <Compile Include="Controllers\Admin\RoomsController.cs" />
+    <Compile Include="Controllers\Admin\RoomTypesController.cs" />
+    <Compile Include="Controllers\Admin\TitlesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Booking.cs" />
+    <Compile Include="Models\BookingSystemModel.cs" />
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Facility.cs" />
+    <Compile Include="Models\FacilityType.cs" />
+    <Compile Include="Models\Guest.cs" />
+    <Compile Include="Models\Hotel.cs" />
+    <Compile Include="Models\HotelFacility.cs" />
+    <Compile Include="Models\HotelFloor.cs" />
+    <Compile Include="Models\Payment.cs" />
+    <Compile Include="Models\PaymentMethod.cs" />
+    <Compile Include="Models\Room.cs" />
+    <Compile Include="Models\RoomBand.cs" />
+    <Compile Include="Models\RoomBooking.cs" />
+    <Compile Include="Models\RoomFacility.cs" />
+    <Compile Include="Models\RoomPrice.cs" />
+    <Compile Include="Models\RoomType.cs" />
+    <Compile Include="Models\sysdiagram.cs" />
+    <Compile Include="Models\Title.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -185,10 +221,44 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Titles\Create.cshtml" />
+    <Content Include="Views\Titles\Delete.cshtml" />
+    <Content Include="Views\Titles\Edit.cshtml" />
+    <Content Include="Views\Titles\Index.cshtml" />
+    <Content Include="Views\FacilityTypes\Create.cshtml" />
+    <Content Include="Views\FacilityTypes\Delete.cshtml" />
+    <Content Include="Views\FacilityTypes\Edit.cshtml" />
+    <Content Include="Views\FacilityTypes\Index.cshtml" />
+    <Content Include="Views\Facilities\Create.cshtml" />
+    <Content Include="Views\Facilities\Delete.cshtml" />
+    <Content Include="Views\Facilities\Details.cshtml" />
+    <Content Include="Views\Facilities\Edit.cshtml" />
+    <Content Include="Views\Facilities\Index.cshtml" />
+    <Content Include="Views\PaymentMethods\Create.cshtml" />
+    <Content Include="Views\PaymentMethods\Delete.cshtml" />
+    <Content Include="Views\PaymentMethods\Edit.cshtml" />
+    <Content Include="Views\PaymentMethods\Index.cshtml" />
+    <Content Include="Views\Rooms\Create.cshtml" />
+    <Content Include="Views\Rooms\Delete.cshtml" />
+    <Content Include="Views\Rooms\Details.cshtml" />
+    <Content Include="Views\Rooms\Edit.cshtml" />
+    <Content Include="Views\Rooms\Index.cshtml" />
+    <Content Include="Views\RoomBands\Create.cshtml" />
+    <Content Include="Views\RoomBands\Delete.cshtml" />
+    <Content Include="Views\RoomBands\Edit.cshtml" />
+    <Content Include="Views\RoomBands\Index.cshtml" />
+    <Content Include="Views\RoomPrices\Create.cshtml" />
+    <Content Include="Views\RoomPrices\Delete.cshtml" />
+    <Content Include="Views\RoomPrices\Edit.cshtml" />
+    <Content Include="Views\RoomPrices\Index.cshtml" />
+    <Content Include="Views\RoomTypes\Create.cshtml" />
+    <Content Include="Views\RoomTypes\Delete.cshtml" />
+    <Content Include="Views\RoomTypes\Edit.cshtml" />
+    <Content Include="Views\RoomTypes\Index.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
