@@ -131,7 +131,7 @@ namespace Hotel_Booking_System.Controllers.Admin
         public ActionResult DeleteConfirmed(int id)
         {
             Room room = db.Rooms.Find(id);
-            db.Rooms.Remove(room);
+            room.deleted = true;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

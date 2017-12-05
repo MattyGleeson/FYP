@@ -153,6 +153,7 @@
     <Compile Include="Controllers\Admin\AdminController.cs" />
     <Compile Include="Controllers\Admin\FacilitiesController.cs" />
     <Compile Include="Controllers\Admin\FacilityTypesController.cs" />
+    <Compile Include="Controllers\Admin\HotelsController.cs" />
     <Compile Include="Controllers\Admin\PaymentMethodsController.cs" />
     <Compile Include="Controllers\Admin\RoomBandsController.cs" />
     <Compile Include="Controllers\Admin\RoomPricesController.cs" />
@@ -256,6 +257,10 @@
     <Content Include="Views\RoomTypes\Edit.cshtml" />
     <Content Include="Views\RoomTypes\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Hotels\Create.cshtml" />
+    <Content Include="Views\Hotels\Delete.cshtml" />
+    <Content Include="Views\Hotels\Edit.cshtml" />
+    <Content Include="Views\Hotels\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -29,9 +29,6 @@
         <th>
             @Html.DisplayNameFor(model => model.additionalNotes)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.deleted)
-        </th>
         <th></th>
     </tr>
 
@@ -54,9 +51,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.additionalNotes)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.deleted)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
