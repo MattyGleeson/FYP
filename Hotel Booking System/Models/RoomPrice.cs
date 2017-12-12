@@ -17,7 +17,7 @@ namespace Hotel_Booking_System.Models
 
         public int id { get; set; }
 
-        public decimal name { get; set; }
+        public decimal price { get; set; }
 
         public bool deleted { get; set; }
 

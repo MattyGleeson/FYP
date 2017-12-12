@@ -31,7 +31,7 @@ namespace Hotel_Booking_System.Controllers.Admin
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,name,deleted")] RoomPrice roomPrice)
+        public ActionResult Create([Bind(Include = "id,price,deleted")] RoomPrice roomPrice)
         {
             if (ModelState.IsValid)
             {
@@ -63,7 +63,7 @@ namespace Hotel_Booking_System.Controllers.Admin
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,name,deleted")] RoomPrice roomPrice)
+        public ActionResult Edit([Bind(Include = "id,price,deleted")] RoomPrice roomPrice)
         {
             if (ModelState.IsValid)
             {

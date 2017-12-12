@@ -42,7 +42,7 @@ namespace Hotel_Booking_System.Controllers.Admin
             ViewBag.hotel_id = new SelectList(db.Hotels, "id", "name");
             ViewBag.hotelFloor_id = new SelectList(db.HotelFloors, "id", "id");
             ViewBag.roomBand_id = new SelectList(db.RoomBands, "id", "name");
-            ViewBag.roomPrice_id = new SelectList(db.RoomPrices, "id", "id");
+            ViewBag.roomPrice_id = new SelectList(db.RoomPrices, "id", "price");
             ViewBag.roomType_id = new SelectList(db.RoomTypes, "id", "name");
             return View();
         }

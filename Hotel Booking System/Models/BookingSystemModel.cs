@@ -28,7 +28,6 @@ namespace Hotel_Booking_System.Models
         public virtual DbSet<RoomFacility> RoomFacilities { get; set; }
         public virtual DbSet<RoomPrice> RoomPrices { get; set; }
         public virtual DbSet<RoomType> RoomTypes { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Title> Titles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -250,7 +249,7 @@ namespace Hotel_Booking_System.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<RoomPrice>()
-                .Property(e => e.name)
+                .Property(e => e.price)
                 .HasPrecision(19, 4);
 
             modelBuilder.Entity<RoomPrice>()

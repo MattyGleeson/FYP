@@ -18,7 +18,7 @@
         @Html.HiddenFor(model => model.id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.hotel_id, "hotel_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.hotel_id, "Hotel", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("hotel_id", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.hotel_id, "", new { @class = "text-danger" })
@@ -26,7 +26,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.hotelFloor_id, "hotelFloor_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.hotelFloor_id, "Floor", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("hotelFloor_id", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.hotelFloor_id, "", new { @class = "text-danger" })
@@ -34,7 +34,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.roomType_id, "roomType_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.roomType_id, "Room Type", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("roomType_id", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.roomType_id, "", new { @class = "text-danger" })
@@ -42,7 +42,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.roomBand_id, "roomBand_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.roomBand_id, "Room Band", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("roomBand_id", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.roomBand_id, "", new { @class = "text-danger" })
@@ -50,7 +50,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.roomPrice_id, "roomPrice_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.roomPrice_id, "Price", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("roomPrice_id", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.roomPrice_id, "", new { @class = "text-danger" })
@@ -58,7 +58,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.additionalNotes, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.additionalNotes, "Additional Notes", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.additionalNotes, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.additionalNotes, "", new { @class = "text-danger" })

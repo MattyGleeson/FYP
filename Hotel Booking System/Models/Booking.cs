@@ -38,7 +38,7 @@ namespace Hotel_Booking_System.Models
         public DateTime paymentDueDate { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime paymentMadeDate { get; set; }
+        public DateTime? paymentMadeDate { get; set; }
 
         [StringLength(150)]
         public string comments { get; set; }
