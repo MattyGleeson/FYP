@@ -6,22 +6,28 @@
 
 <h2>Index</h2>
 
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
 <table class="table">
     <tr>
         <th>
-            Name
+            Hotel
         </th>
         <th>
             Floor
         </th>
         <th>
-            Band
+            Room Band
         </th>
         <th>
             Price
         </th>
         <th>
-            Type
+            Room Type
+        </th>
+        <th>
+            Notes
         </th>
         <th></th>
     </tr>
@@ -44,7 +50,12 @@
             @Html.DisplayFor(modelItem => item.RoomType.name)
         </td>
         <td>
-            @Html.ActionLink("Details", "Details", new { id=item.id })
+            @Html.DisplayFor(modelItem => item.additionalNotes)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
         </td>
     </tr>
 }

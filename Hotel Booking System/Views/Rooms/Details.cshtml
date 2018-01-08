@@ -1,12 +1,14 @@
-﻿@model Hotel_Booking_System.Models.Room
+﻿@model Hotel_Booking_System.View_Models.RoomDetailsVM
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>@ViewBag.Title</h2>
 
 <div>
+@using (Html.BeginForm("AddToCart", "Rooms", new { id = Model.Room.id }))
+{
     <h4>Room</h4>
     <hr />
     <dl class="dl-horizontal">
@@ -15,7 +17,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Hotel.name)
+            @Html.DisplayFor(model => model.Room.Hotel.name)
         </dd>
 
         <dt>
@@ -23,7 +25,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.HotelFloor.id)
+            @Html.DisplayFor(model => model.Room.HotelFloor.no)
         </dd>
 
         <dt>
@@ -31,7 +33,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.RoomBand.name)
+            @Html.DisplayFor(model => model.Room.RoomBand.name)
         </dd>
 
         <dt>
@@ -39,7 +41,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.RoomPrice.id)
+            @Html.DisplayFor(model => model.Room.RoomPrice.price)
         </dd>
 
         <dt>
@@ -47,7 +49,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.RoomType.name)
+            @Html.DisplayFor(model => model.Room.RoomType.name)
         </dd>
 
         <dt>
@@ -55,12 +57,21 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.additionalNotes)
+            @Html.DisplayFor(model => model.Room.additionalNotes)
         </dd>
 
+        <dt>
+            Facilities
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Facilities)
+        </dd>
     </dl>
+
+    <input type="submit" value="Add to cart" />
+}
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

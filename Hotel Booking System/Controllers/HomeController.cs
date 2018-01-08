@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hotel_Booking_System.View_Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,7 @@ namespace Hotel_Booking_System.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return View(new HomeDatePickerVM());
         }
 
         public ActionResult About()
@@ -23,6 +24,12 @@ namespace Hotel_Booking_System.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
+        public ActionResult Search(DateTime startDate, DateTime endDate)
+        {
 
             return View();
         }
