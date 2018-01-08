@@ -1,4 +1,4 @@
-﻿@model Hotel_Booking_System.Models.Booking
+﻿@model Hotel_Booking_System.View_Models.BookingDetailsVM
 
 @{
     ViewBag.Title = "Delete";
@@ -12,86 +12,103 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Customer.forename)
+            Name
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Customer.forename)
+            @Html.DisplayFor(model => model.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.bookingMadeDate)
+            Created
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.bookingMadeDate)
+            @Html.DisplayFor(model => model.Created)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.bookingMadeTime)
+            From
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.bookingMadeTime)
+            @Html.DisplayFor(model => model.From)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.startDate)
+            To
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.startDate)
+            @Html.DisplayFor(model => model.To)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.endDate)
+            Total
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.endDate)
+            @Html.DisplayFor(model => model.Total)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.paymentTotal)
+            Payment Made
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.paymentTotal)
+            @Html.DisplayFor(model => model.PaymentMade)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.paymentDueDate)
+            No. Rooms
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.paymentDueDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.paymentMadeDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.paymentMadeDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.comments)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.comments)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.deleted)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.deleted)
+            @Html.DisplayFor(model => model.NoRooms)
         </dd>
 
     </dl>
+
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Floor
+            </th>
+            <th>
+                Band
+            </th>
+            <th>
+                Price(£)
+            </th>
+            <th>
+                Type
+            </th>
+        </tr>
+
+        @foreach (var item in Model.Rooms)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hotel.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HotelFloor.no)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomBand.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomPrice.price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomType.name)
+                </td>
+            </tr>
+        }
+    </table>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()

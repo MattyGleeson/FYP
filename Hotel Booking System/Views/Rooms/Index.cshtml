@@ -1,10 +1,37 @@
-﻿@model IEnumerable<Hotel_Booking_System.Models.Room>
+﻿@model Hotel_Booking_System.View_Models.RoomIndexVM
 
 @{
     ViewBag.Title = "Index";
 }
+<h2>Room Index</h2>
+<h3>Filters</h3>
 
-<h2>Index</h2>
+<div class="row" style="padding-top: 10px;">
+    @using (Html.BeginForm("Index", "Rooms", FormMethod.Get, new { style = "overflow: hidden;" }))
+    {
+        <div class="col-md-12" style="overflow: hidden;">
+            <label class="control-label col-md-2">Start Date</label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @style = "display: inline-block;" } })
+            </div>
+            <label class="control-label col-md-2">End Date</label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="col-md-12" style="padding-top: 10px; overflow: hidden;">
+            <label class="control-label col-md-2">Room Type</label>
+            <div class="col-md-4">
+                @Html.DropDownList("RoomTypeId", null, "Select room type", htmlAttributes: new { @class = "form-control" })
+            </div>
+            <div class="col-md-6">
+                <input type="submit" value="Search Rooms" class="filter-search-button" />
+            </div>
+        </div>
+    }
+</div><br />
+
+<h3>Rooms</h3>
 
 <table class="table">
     <tr>
@@ -26,7 +53,8 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Rooms)
+{
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Hotel.name)
@@ -44,7 +72,7 @@
             @Html.DisplayFor(modelItem => item.RoomType.name)
         </td>
         <td>
-            @Html.ActionLink("Details", "Details", new { id=item.id })
+            @Html.ActionLink("Details", "Details", new { id = item.id })
         </td>
     </tr>
 }

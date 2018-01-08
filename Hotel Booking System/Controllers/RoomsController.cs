@@ -25,72 +25,45 @@ namespace Hotel_Booking_System.Controllers
         //    return View(rooms.ToList());
         //}
 
-        public ActionResult Index(DateTime? StartDate, DateTime? EndDate)
+        public ActionResult Index(DateTime? StartDate, DateTime? EndDate, int? RoomTypeId)
         {
-            if ((StartDate != null && EndDate != null) || (Session[Globals.StartDateSessionVar] != null && Session[Globals.EndDateSessionVar] != null))
+            ViewBag.RoomTypeId = new SelectList(db.RoomTypes, "id", "name", "Select room type");
+            if ((StartDate != null && StartDate != DateTime.MinValue && EndDate != null && EndDate != DateTime.MinValue) || (Session[Globals.StartDateSessionVar] != null && Session[Globals.EndDateSessionVar] != null))
             {
                 DateTime Start = StartDate != null ? (DateTime) StartDate : Convert.ToDateTime(Session[Globals.StartDateSessionVar]);
                 DateTime End = EndDate != null ? (DateTime) EndDate : Convert.ToDateTime(Session[Globals.EndDateSessionVar]);
 
                 Session[Globals.StartDateSessionVar] = Start;
                 Session[Globals.EndDateSessionVar] = End;
-                //ViewBag.StartDate = StartDate;
-                //ViewBag.EndDate = EndDate;
 
-                //List<Booking> bookings = db.Bookings.Where(v => ((Start >= v.startDate && Start <= v.endDate) || (End >= v.startDate && End <= v.endDate)) && !v.deleted).ToList();
-                var allBookings = db.Bookings.Include(b => b.Customer).ToList();
-                Booking first = allBookings.First();
+                IQueryable<Booking> bookingsQuery = db.Bookings.Where(v => !v.deleted);
 
-                int compareStart = DateTime.Compare(Start, first.startDate);
-                int compareEnd = DateTime.Compare(Start, first.endDate);
+                bookingsQuery.Where(v => (DateTime.Compare(Start, v.startDate) >= 0 && DateTime.Compare(Start, v.endDate) <= 0));
+                bookingsQuery.Where(v => (DateTime.Compare(End, v.startDate) >= 0 && DateTime.Compare(End, v.endDate) <= 0));
+                bookingsQuery.Where(v => (DateTime.Compare(Start, v.startDate) <= 0 && DateTime.Compare(End, v.endDate) >= 0));
 
-
-                List<Booking> bookings = db.Bookings.Where(v => ((DateTime.Compare(Start, v.startDate) >= 0 && DateTime.Compare(Start, v.endDate) <= 0)
-                 && !v.deleted)).ToList();
-
+                List<Booking> bookings = bookingsQuery.ToList();
                 List<Room> invalidRooms = new List<Room>();
 
                 foreach (Booking b in bookings)
                 {
-                    using (SqlConnection con = new SqlConnection("data source=localhost;initial catalog=HotelBookingSystem;integrated security=True;multipleactiveresultsets=True;application name=EntityFramework"))
-                    {
-                        using (SqlCommand cmd = new SqlCommand("getBookingRooms", con))
-                        {
-                            cmd.CommandType = CommandType.StoredProcedure;
-
-                            cmd.Parameters.Add("@bookingId", SqlDbType.Int).Value = b.id;
-
-                            con.Open();
-
-                            using (SqlDataReader reader = cmd.ExecuteReader())
-                            {
-                                while (reader.Read())
-                                {
-                                    invalidRooms.Add(new Room
-                                    {
-                                        id = Convert.ToInt32(reader[0]),
-                                        hotel_id = Convert.ToInt32(reader[1]),
-                                        hotelFloor_id = Convert.ToInt32(reader[2]),
-                                        roomType_id = Convert.ToInt32(reader[3]),
-                                        roomBand_id = Convert.ToInt32(reader[4]),
-                                        roomPrice_id = Convert.ToInt32(reader[5]),
-                                        additionalNotes = Convert.ToString(reader[6])
-                                    });
-                                }
-
-                            }
-                        }
-                    }
+                    invalidRooms.AddRange(StoredProcedures.GetBookingRooms(b.id));
                 }
 
-                List<Room> one = db.Rooms.Where(v => !v.deleted).ToList();
-                List<Room> two = one.Where(v => invalidRooms.Where(vv => vv.id == v.id).FirstOrDefault() == null).ToList();
+                IQueryable<Room> allRooms = db.Rooms.Where(v => !v.deleted);
+                if (RoomTypeId != null)
+                    allRooms = allRooms.Where(v => v.roomType_id == RoomTypeId);
 
-                return View(two);
+                List<Room> validRooms = allRooms.ToList().Where(v => invalidRooms.Where(vv => vv.id == v.id).FirstOrDefault() == null).ToList();
+
+                return View(new RoomIndexVM { Rooms = validRooms });
             }
             else
             {
-                return View(db.Rooms.Where(v => !v.deleted));
+                IQueryable<Room> allRooms = db.Rooms.Where(v => !v.deleted);
+                if (RoomTypeId != null)
+                    allRooms = allRooms.Where(v => v.roomType_id == RoomTypeId);
+                return View(new RoomIndexVM { Rooms = allRooms.ToList() });
             }
         }
 

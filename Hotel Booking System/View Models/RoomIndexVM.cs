@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hotel_Booking_System.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,8 +7,10 @@ using System.Web;
 
 namespace Hotel_Booking_System.View_Models
 {
-    public class HomeDatePickerVM
+    public class RoomIndexVM
     {
+        public IEnumerable<Room> Rooms { get; set; }
+
         [DataType(DataType.Date)]
         [DisplayFormat(
             DataFormatString = "{0:dd-MM-yyyy}",

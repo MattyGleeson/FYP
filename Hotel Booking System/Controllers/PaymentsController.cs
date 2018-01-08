@@ -80,7 +80,13 @@ namespace Hotel_Booking_System.Controllers
                 payment.booking_id = booking.id;
                 db.Payments.Add(payment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                Session[Globals.CartSessionVar] = null;
+                Session[Globals.BookingSessionVar] = null;
+                Session[Globals.StartDateSessionVar] = null;
+                Session[Globals.EndDateSessionVar] = null;
+
+                return RedirectToAction("Index", "Bookings");
             }
 
             ViewBag.booking_id = new SelectList(db.Bookings, "id", "comments", payment.booking_id);

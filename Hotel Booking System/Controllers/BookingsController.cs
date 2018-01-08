@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Hotel_Booking_System.Models;
 using Hotel_Booking_System.Global;
+using Hotel_Booking_System.View_Models;
 
 namespace Hotel_Booking_System.Controllers
 {
@@ -18,8 +19,18 @@ namespace Hotel_Booking_System.Controllers
         // GET: Bookings
         public ActionResult Index()
         {
-            var bookings = db.Bookings.Include(b => b.Customer);
-            return View(bookings.ToList());
+            var bookings = db.Bookings.Where(v => !v.deleted).Include(b => b.Customer);
+            return View(bookings.ToList().Select(v => new BookingIndexVM
+            {
+                ModelId = v.id,
+                Name = v.Customer.forename + " " + v.Customer.surname,
+                Created = v.bookingMadeDate.ToShortDateString() + " at " + v.bookingMadeTime.ToString(@"hh\:mm"),
+                From = v.startDate.ToShortDateString(),
+                To = v.endDate.ToShortDateString(),
+                NoRooms = v.RoomBookings.Count(),
+                Total = "£" + v.paymentTotal.ToString("0.00"),
+                PaymentMade = (v.Payments != null && v.Payments.Count() > 0) ? true : false,
+            }));
         }
 
         // GET: Bookings/Details/5
@@ -34,17 +45,35 @@ namespace Hotel_Booking_System.Controllers
             {
                 return HttpNotFound();
             }
-            return View(booking);
+
+            List<Room> rooms = StoredProcedures.GetBookingRooms(booking.id).ToList();
+
+            return View(new BookingDetailsVM
+            {
+                ModelId = booking.id,
+                Name = booking.Customer.forename + " " + booking.Customer.surname,
+                Created = booking.bookingMadeDate.ToShortDateString() + " at " + booking.bookingMadeTime.ToString(@"hh\:mm"),
+                From = booking.startDate.ToShortDateString(),
+                To = booking.endDate.ToShortDateString(),
+                NoRooms = booking.RoomBookings.Count(),
+                Total = "£" + booking.paymentTotal.ToString("0.00"),
+                PaymentMade = (booking.Payments != null && booking.Payments.Count() > 0) ? true : false,
+                Rooms = rooms
+            });
         }
 
         // GET: Bookings/Create
         public ActionResult Create()
         {
+            List<int> roomIds = (List<int>)Session[Globals.CartSessionVar];
+
+            if (roomIds == null || roomIds.Count() == 0)
+                return Redirect(Request.UrlReferrer.ToString());
+
             ViewBag.customer_id = new SelectList(db.Customers, "id", "forename");
             ViewBag.start_date = Session[Globals.StartDateSessionVar];
             ViewBag.end_date = Session[Globals.EndDateSessionVar];
-
-            List<int> roomIds = (List<int>)Session[Globals.CartSessionVar];
+            
             List<Room> rooms = new List<Room>();
             double total = 0;
 
@@ -58,6 +87,21 @@ namespace Hotel_Booking_System.Controllers
             ViewBag.rooms = rooms;
             ViewBag.total = total;
             return View();
+        }
+
+        public ActionResult RemoveRoomFromCart(int id)
+        {
+            List<int> roomIds = (List<int>) Session[Globals.CartSessionVar];
+
+            for (int i = 0; i < roomIds.Count(); i++)
+            {
+                if (roomIds[i] == id)
+                    roomIds.RemoveAt(i);
+            }
+
+            Session[Globals.CartSessionVar] = roomIds;
+
+            return RedirectToAction("Create");
         }
 
         // POST: Bookings/Create
@@ -142,7 +186,18 @@ namespace Hotel_Booking_System.Controllers
             {
                 return HttpNotFound();
             }
-            return View(booking);
+            return View(new BookingDetailsVM
+            {
+                ModelId = booking.id,
+                Name = booking.Customer.forename + " " + booking.Customer.surname,
+                Created = booking.bookingMadeDate.ToShortDateString() + " at " + booking.bookingMadeTime.ToString(@"hh\:mm"),
+                From = booking.startDate.ToShortDateString(),
+                To = booking.endDate.ToShortDateString(),
+                NoRooms = booking.RoomBookings.Count(),
+                Total = "£" + booking.paymentTotal.ToString("0.00"),
+                PaymentMade = (booking.Payments != null && booking.Payments.Count() > 0) ? true : false,
+                Rooms = StoredProcedures.GetBookingRooms(booking.id)
+            });
         }
 
         // POST: Bookings/Delete/5
@@ -150,10 +205,10 @@ namespace Hotel_Booking_System.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Booking booking = db.Bookings.Find(id);
-            db.Bookings.Remove(booking);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (StoredProcedures.DeleteBooking(id, db.Bookings.Find(id).Customer.id))
+                return RedirectToAction("Index");
+            else
+                return null;
         }
 
         protected override void Dispose(bool disposing)

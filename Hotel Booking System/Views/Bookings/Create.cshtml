@@ -23,22 +23,6 @@
             </div>
         </div>
 
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.bookingMadeDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.bookingMadeDate, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.bookingMadeDate, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.bookingMadeTime, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.bookingMadeTime, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.bookingMadeTime, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
-
         <div class="form-group">
             @Html.LabelFor(model => model.startDate, "Start", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -59,22 +43,6 @@
                 <label class="col-md-2 text-field">@ViewBag.total</label>
             </div>
         </div>
-
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.paymentDueDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.paymentDueDate, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.paymentDueDate, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.paymentMadeDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.paymentMadeDate, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.paymentMadeDate, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.comments, "Comments", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -103,7 +71,7 @@
                         <th>
                             Type
                         </th>
-                        @*<th></th>*@
+                        <th></th>
                     </tr>
 
                     @foreach (Hotel_Booking_System.Models.Room item in ViewBag.rooms)
@@ -124,9 +92,9 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.RoomType.name)
                             </td>
-                            @*<td>
-                                    @Html.ActionLink("Details", "Details", new { id = item.id })
-                                </td>*@
+                            <td>
+                                @Html.ActionLink("Remove from cart", "RemoveRoomFromCart", new { id = item.id })
+                            </td>
                         </tr>
                     }
                 </table>

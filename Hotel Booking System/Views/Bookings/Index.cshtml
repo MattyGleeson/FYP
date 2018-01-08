@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Hotel_Booking_System.Models.Booking>
+﻿@model IEnumerable<Hotel_Booking_System.View_Models.BookingIndexVM>
 
 @{
     ViewBag.Title = "Index";
@@ -6,40 +6,28 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Customer.forename)
+            Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.bookingMadeDate)
+            Created
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.bookingMadeTime)
+            From
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.startDate)
+            To
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.endDate)
+            No. Rooms
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.paymentTotal)
+            Total
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.paymentDueDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.paymentMadeDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.comments)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.deleted)
+            Payment Made
         </th>
         <th></th>
     </tr>
@@ -47,39 +35,28 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Customer.forename)
+            @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.bookingMadeDate)
+            @Html.DisplayFor(modelItem => item.Created)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.bookingMadeTime)
+            @Html.DisplayFor(modelItem => item.From)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.startDate)
+            @Html.DisplayFor(modelItem => item.To)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.endDate)
+            @Html.DisplayFor(modelItem => item.NoRooms)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.paymentTotal)
+            @Html.DisplayFor(modelItem => item.Total)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.paymentDueDate)
+            @Html.DisplayFor(modelItem => item.PaymentMade)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.paymentMadeDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.comments)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.deleted)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            @Html.ActionLink("Details", "Details", new { id=item.ModelId })
         </td>
     </tr>
 }

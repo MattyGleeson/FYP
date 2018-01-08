@@ -1,7 +1,32 @@
-﻿@{
+﻿@model Hotel_Booking_System.View_Models.AboutIndexVM
+@{
     ViewBag.Title = "About";
 }
 <h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<h3>@ViewBag.Message</h3><br />
 
-<p>Use this area to provide additional information.</p>
+<h4>Hotel Info</h4>
+
+<div>
+    <label class="col-md-2 control-label">Name:</label>
+    <label class="col-md-10 text-field-no-padding">@Model.Hotel.name</label><br />
+</div><br />
+
+<div>
+    <label class="col-md-2 control-label">Phone No:</label>
+    <label class="col-md-10 text-field-no-padding">@Model.Hotel.phoneNo</label><br />
+</div><br />
+
+<div>
+    <label class="col-md-2 control-label">Email:</label>
+    <label class="col-md-10 text-field-no-padding">@Model.Hotel.email</label><br />
+</div><br />
+
+<h4>Hotel Facilities</h4>
+
+<ul>
+@foreach (var item in Model.Facilities)
+{
+    <li>@item</li>
+}
+</ul>

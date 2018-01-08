@@ -5,31 +5,10 @@
 
 <div class="jumbotron">
     <h1>HOTEL BOOKING SYSTEM</h1>
-    @*<p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
 </div>
 
 <div class="row">
-    @*<div class="col-md-4">
-        <a class="btn btn-default nav-button" href="/Rooms">
-            <h2>Rooms</h2>
-            <p>
-                View available rooms
-            </p>
-        </a>
-    </div>
-    <div class="col-md-4">
-        <a class="btn btn-default nav-button" href="https://go.microsoft.com/fwlink/?LinkId=301866">
-            <h2>Bookings</h2>
-            <p>
-                View bookings
-            </p>
-        </a>
-    </div>*@
-
     <div class="col-md-12">
-        
-
         @*<form id='your-range-form' action='@Url.Action("Search","Home")' method='post'>
             <input id='start' name='startDate' />
             <input id='end' name='endDate' />
@@ -56,13 +35,17 @@
     <div class="col-md-6 col-md-offset-3">
         @using (Html.BeginForm("Index", "Rooms"))
         {
-            <div class="">
+            <div>
                 <label class="control-label col-md-3">Start Date</label>
                 @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @style = "display: inline-block;" } })
             </div><br />
-            <div class="">
+            <div>
                 <label class="control-label col-md-3">End Date</label>
                 @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+            </div><br />
+            <div>
+                <label class="control-label col-md-3">Room Type</label>
+                @Html.DropDownList("RoomTypeId", null, "Select room type", htmlAttributes: new { @class = "form-control" })
             </div><br />
             <input type="submit" value="Search Rooms" class="search-button" />
         }
