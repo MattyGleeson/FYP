@@ -11,10 +11,12 @@ using Hotel_Booking_System.View_Models;
 using System.Data.SqlClient;
 using System.Web.Caching;
 using Hotel_Booking_System.Global;
+using Hotel_Booking_System.Controllers.ControllerExtensions;
+using Hotel_Booking_System.Toast;
 
 namespace Hotel_Booking_System.Controllers
 {
-    public class RoomsController : Controller
+    public class RoomsController : MessageControllerBase
     {
         private BookingSystemModel db = new BookingSystemModel();
 
@@ -60,10 +62,29 @@ namespace Hotel_Booking_System.Controllers
             }
             else
             {
-                IQueryable<Room> allRooms = db.Rooms.Where(v => !v.deleted);
-                if (RoomTypeId != null)
-                    allRooms = allRooms.Where(v => v.roomType_id == RoomTypeId);
-                return View(new RoomIndexVM { Rooms = allRooms.ToList() });
+                if (((StartDate != null && StartDate != DateTime.MinValue) || (Session[Globals.StartDateSessionVar] != null)) &&
+                    (EndDate == null || EndDate == DateTime.MinValue || Session[Globals.EndDateSessionVar] == null))
+                {
+                    var controller = (Request.UrlReferrer.Segments.Skip(1).Take(1).SingleOrDefault() ?? "Home").Trim('/');
+                    var action = (Request.UrlReferrer.Segments.Skip(2).Take(1).SingleOrDefault() ?? "Index").Trim('/');
+                    AddToastMessage("Search Error Occured", "Please select an end date", ToastType.Error);
+                    return RedirectToAction(action, controller);
+                }
+                else if (((EndDate != null && EndDate != DateTime.MinValue) || (Session[Globals.EndDateSessionVar] != null)) &&
+                    (StartDate == null || StartDate == DateTime.MinValue || Session[Globals.StartDateSessionVar] == null))
+                {
+                    var controller = (Request.UrlReferrer.Segments.Skip(1).Take(1).SingleOrDefault() ?? "Home").Trim('/');
+                    var action = (Request.UrlReferrer.Segments.Skip(2).Take(1).SingleOrDefault() ?? "Index").Trim('/');
+                    AddToastMessage("Search Error Occured", "Please select a start date", ToastType.Error);
+                    return RedirectToAction(action, controller);
+                }
+                else
+                {
+                    IQueryable<Room> allRooms = db.Rooms.Where(v => !v.deleted);
+                    if (RoomTypeId != null)
+                        allRooms = allRooms.Where(v => v.roomType_id == RoomTypeId);
+                    return View(new RoomIndexVM { Rooms = allRooms.ToList() });
+                }
             }
         }
 
@@ -101,7 +122,7 @@ namespace Hotel_Booking_System.Controllers
             {
                 Session[Globals.CartSessionVar] = new List<int> { (int) id };
             }
-
+            AddToastMessage("Cart Updated", "The room has been added to the cart", ToastType.Success);
             return RedirectToAction("Index", new { StartDate = Convert.ToDateTime(Session[Globals.StartDateSessionVar]), EndDate = Convert.ToDateTime(Session[Globals.EndDateSessionVar]) });
         }
 

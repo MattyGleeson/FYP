@@ -32,6 +32,12 @@ namespace Hotel_Booking_System
 
             bundles.Add(new StyleBundle("~/Content/jqueryui").Include(
                 "~/Content/themes/base/all.css"));
+
+            bundles.Add(new StyleBundle("~/content/toastr", "http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css").Include(
+                "~/Content/toastr.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/toastr", "http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js").Include(
+                "~/Scripts/toastr.js"));
         }
     }
 }

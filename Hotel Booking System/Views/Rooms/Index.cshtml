@@ -7,7 +7,7 @@
 <h3>Filters</h3>
 
 <div class="row" style="padding-top: 10px;">
-    @using (Html.BeginForm("Index", "Rooms", FormMethod.Get, new { style = "overflow: hidden;" }))
+    @using (Html.BeginForm("Index", "Rooms", FormMethod.Post, new { style = "overflow: hidden;" }))
     {
         <div class="col-md-12" style="overflow: hidden;">
             <label class="control-label col-md-2">Start Date</label>

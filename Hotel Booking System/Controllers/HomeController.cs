@@ -1,4 +1,6 @@
-﻿using Hotel_Booking_System.Models;
+﻿using Hotel_Booking_System.Controllers.ControllerExtensions;
+using Hotel_Booking_System.Models;
+using Hotel_Booking_System.Toast;
 using Hotel_Booking_System.View_Models;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Web.Mvc;
 
 namespace Hotel_Booking_System.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : MessageControllerBase
     {
         private BookingSystemModel db = new BookingSystemModel();
 
@@ -25,7 +27,6 @@ namespace Hotel_Booking_System.Controllers
             var hotel = db.Hotels.First();
 
             IEnumerable<String> facilities = hotel.HotelFacilities.Select(v => v.Facility.name);
-
             return View(new AboutIndexVM
             {
                 Facilities = facilities,

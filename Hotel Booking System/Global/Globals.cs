@@ -18,8 +18,10 @@ namespace Hotel_Booking_System.Global
         public static String ConnectionString()
         {
             ConnectionStringSettings mySetting = ConfigurationManager.ConnectionStrings[ConStringName];
+
             if (mySetting == null || string.IsNullOrEmpty(mySetting.ConnectionString))
                 throw new Exception("Fatal error: missing connecting string in web.config file");
+
             return mySetting.ConnectionString;
         }
     }

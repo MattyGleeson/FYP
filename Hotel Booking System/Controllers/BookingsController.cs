@@ -9,10 +9,12 @@ using System.Web.Mvc;
 using Hotel_Booking_System.Models;
 using Hotel_Booking_System.Global;
 using Hotel_Booking_System.View_Models;
+using Hotel_Booking_System.Controllers.ControllerExtensions;
+using Hotel_Booking_System.Toast;
 
 namespace Hotel_Booking_System.Controllers
 {
-    public class BookingsController : Controller
+    public class BookingsController : MessageControllerBase
     {
         private BookingSystemModel db = new BookingSystemModel();
 
@@ -68,7 +70,16 @@ namespace Hotel_Booking_System.Controllers
             List<int> roomIds = (List<int>)Session[Globals.CartSessionVar];
 
             if (roomIds == null || roomIds.Count() == 0)
-                return Redirect(Request.UrlReferrer.ToString());
+            {
+                var controller = (Request.UrlReferrer.Segments.Skip(1).Take(1).SingleOrDefault() ?? "Home").Trim('/');
+                var action = (Request.UrlReferrer.Segments.Skip(2).Take(1).SingleOrDefault() ?? "Index").Trim('/');
+                AddToastMessage("Empty Cart", "Please add a room to the cart", ToastType.Info);
+
+                if (action == "Create" && controller == "Bookings")
+                    return RedirectToAction("Index", "Home");
+                else
+                    return RedirectToAction(action, controller);
+            }
 
             ViewBag.customer_id = new SelectList(db.Customers, "id", "forename");
             ViewBag.start_date = Session[Globals.StartDateSessionVar];
@@ -101,6 +112,7 @@ namespace Hotel_Booking_System.Controllers
 
             Session[Globals.CartSessionVar] = roomIds;
 
+            AddToastMessage("Cart Updated", "Room removed from the cart", ToastType.Success);
             return RedirectToAction("Create");
         }
 

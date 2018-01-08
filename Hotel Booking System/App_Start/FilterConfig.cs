@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using Hotel_Booking_System.Controllers.ControllerExtensions;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Hotel_Booking_System
@@ -8,6 +9,7 @@ namespace Hotel_Booking_System
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new MessagesActionFilter());
         }
     }
 }

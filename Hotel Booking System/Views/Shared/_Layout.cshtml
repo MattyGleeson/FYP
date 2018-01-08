@@ -6,6 +6,7 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/jqueryui")
+    @Styles.Render("~/Content/toastr")
     @Scripts.Render("~/bundles/modernizr")
 
     <!-- jQuery UI CSS Reference -->
@@ -27,7 +28,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Create Booking", "Create", "Bookings")</li>
+                    <li>@Html.ActionLink("Checkout", "Create", "Bookings")</li>
                     <li>@Html.ActionLink("View Bookings", "Index", "Bookings")</li>
                     <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
@@ -46,6 +47,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/toastr")
+    @Html.Partial("_Toastr")
     <script>
         $(function () {
             $(".jqueryui-marker-datepicker").datepicker({
