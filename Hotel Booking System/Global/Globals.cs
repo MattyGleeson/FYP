@@ -14,6 +14,7 @@ namespace Hotel_Booking_System.Global
         public static readonly String BookingSessionVar = "Booking";
         public static readonly IEnumerable<String> Titles = new List<String>() { "Mr", "Mrs", "Ms", "Dr" };
         public static readonly IEnumerable<String> BookingPeriods = new List<String>() { "Created On", "Start Date", "End Date" };
+        public static readonly IEnumerable<String> PaymentStatuses = new List<String>() { "Paid", "Un-Paid" };
 
         private static readonly String ConStringName = "BookingSystemModel";
 

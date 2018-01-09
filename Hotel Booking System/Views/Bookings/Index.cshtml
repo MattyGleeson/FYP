@@ -25,7 +25,13 @@
             <div class="col-md-4">
                 @Html.DropDownList("DateFilter", null, "Select date filter", htmlAttributes: new { @class = "form-control" })
             </div>
-            <div class="col-md-6">
+            <label class="control-label col-md-2">Payment Status</label>
+            <div class="col-md-4">
+                @Html.DropDownList("PaidStatus", null, "Select payment status", htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-12" style="padding-top: 10px; overflow: hidden;">
+            <div class="col-md-offset-3 col-md-6">
                 <input type="submit" value="Search Bookings" class="btn btn-primary filter-search-button" />
             </div>
         </div>

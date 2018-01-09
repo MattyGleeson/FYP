@@ -26,5 +26,7 @@ namespace Hotel_Booking_System.View_Models
         public DateTime ChosenEndDate { get; set; }
 
         public String DateFilter { get; set; }
+
+        public String Paid { get; set; }
     }
 }

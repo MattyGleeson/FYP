@@ -19,10 +19,11 @@ namespace Hotel_Booking_System.Controllers
         private BookingSystemModel db = new BookingSystemModel();
 
         // GET: Bookings
-        public ActionResult Index(DateTime? StartDate, DateTime? EndDate, String DateFilter = null)
+        public ActionResult Index(DateTime? StartDate, DateTime? EndDate, String DateFilter = null, String PaidStatus = null)
         {
             IQueryable<Booking> bookingsQuery = db.Bookings.Where(v => !v.deleted && !v.cancelled);
             ViewBag.DateFilter = new SelectList(Globals.BookingPeriods.Select(v => new SelectListItem { Value = v, Text = v }), "value", "value", "Select date filter");
+            ViewBag.PaidStatus = new SelectList(Globals.PaymentStatuses.Select(v => new SelectListItem { Value = v, Text = v }), "value", "value", "Select payment status");
 
             if (StartDate != null && StartDate != DateTime.MinValue && EndDate != null && EndDate != DateTime.MinValue && DateFilter != "")
             {
@@ -36,6 +37,11 @@ namespace Hotel_Booking_System.Controllers
                 else
                     bookingsQuery = bookingsQuery.Where(v => (DateTime.Compare(Start, v.endDate) <= 0 && DateTime.Compare(End, v.endDate) >= 0));
             }
+
+            if (PaidStatus == "Paid")
+                bookingsQuery = bookingsQuery.Where(v => v.paymentMadeDate != null);
+            else if (PaidStatus == "Un-Paid")
+                bookingsQuery = bookingsQuery.Where(v => v.paymentMadeDate == null);
 
             var bookings = bookingsQuery.AsEnumerable().ToList();
             return View(new BookingIndexVM
@@ -55,15 +61,20 @@ namespace Hotel_Booking_System.Controllers
             });
         }
 
-        public ActionResult Search(DateTime? ChosenStartDate, DateTime? ChosenEndDate, String DateFilter = null)
+        public ActionResult Search(DateTime? ChosenStartDate, DateTime? ChosenEndDate, String DateFilter = null, String PaidStatus = null)
         {
             if ((ChosenStartDate == null || ChosenStartDate == DateTime.MinValue) || (ChosenEndDate == null || ChosenEndDate == DateTime.MinValue) || DateFilter == "")
             {
+                if (PaidStatus != "")
+                {
+                    AddToastMessage("Search Issue", "Please enter valid date properties for the filter", ToastType.Info);
+                    return RedirectToAction("Index", new { PaidStatus = PaidStatus });
+                }
                 AddToastMessage("Search Issue", "Please enter valid properties for the filter", ToastType.Info);
                 return RedirectToAction("Index");
             }
             else
-                return RedirectToAction("Index", new { StartDate = ChosenStartDate, EndDate = ChosenEndDate, DateFilter = DateFilter });
+                return RedirectToAction("Index", new { StartDate = ChosenStartDate, EndDate = ChosenEndDate, DateFilter = DateFilter, PaidStatus = PaidStatus });
         }
 
         // GET: Bookings/Details/5
@@ -116,7 +127,7 @@ namespace Hotel_Booking_System.Controllers
                     return RedirectToAction(action, controller, HttpUtility.ParseQueryString(Request.UrlReferrer.Query)["SYSTEM"]);
             }
 
-            ViewBag.customer_id = new SelectList(db.Customers, "id", "forename");
+            ViewBag.customer_id = new SelectList(db.Customers.Where(v => !v.deleted), "id", "forename");
             ViewBag.start_date = Convert.ToDateTime(Session[Globals.StartDateSessionVar]).ToLongDateString();
             ViewBag.end_date = Convert.ToDateTime(Session[Globals.EndDateSessionVar]).ToLongDateString();
 
@@ -223,16 +234,7 @@ namespace Hotel_Booking_System.Controllers
 
             Guest guest = bookingVM.IsCustomerFromBooking ? 
                 new Guest {
-                    customer_id = booking.Customer.id,
-                    title = booking.Customer.title,
-                    forename = booking.Customer.forename,
-                    surname = booking.Customer.surname,
-                    dob = booking.Customer.dob,
-                    addressStreet = booking.Customer.addressStreet,
-                    addressTown = booking.Customer.addressTown,
-                    addressCounty = booking.Customer.addressCounty,
-                    addressPostalCode = booking.Customer.addressPostalCode,
-                    contactPhoneNo = bookingVM.ContactPhoneNoSelected
+                    customer_id = booking.Customer.id
                 } : 
                 new Guest {
                     customer_id = null,

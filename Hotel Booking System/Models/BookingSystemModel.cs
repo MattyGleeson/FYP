@@ -28,6 +28,7 @@ namespace Hotel_Booking_System.Models
         public virtual DbSet<RoomFacility> RoomFacilities { get; set; }
         public virtual DbSet<RoomPrice> RoomPrices { get; set; }
         public virtual DbSet<RoomType> RoomTypes { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
