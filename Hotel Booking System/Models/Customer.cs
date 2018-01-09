@@ -13,12 +13,15 @@ namespace Hotel_Booking_System.Models
         public Customer()
         {
             Bookings = new HashSet<Booking>();
+            Guests = new HashSet<Guest>();
             Payments = new HashSet<Payment>();
         }
 
         public int id { get; set; }
 
-        public int title_id { get; set; }
+        [Required]
+        [StringLength(4)]
+        public string title { get; set; }
 
         [Required]
         [StringLength(20)]
@@ -67,7 +70,8 @@ namespace Hotel_Booking_System.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Booking> Bookings { get; set; }
 
-        public virtual Title Title { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Guest> Guests { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Payment> Payments { get; set; }

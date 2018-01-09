@@ -8,10 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using Hotel_Booking_System.Models;
 using Hotel_Booking_System.Global;
+using Hotel_Booking_System.Controllers.ControllerExtensions;
 
 namespace Hotel_Booking_System.Controllers
 {
-    public class PaymentsController : Controller
+    public class PaymentsController : MessageControllerBase
     {
         private BookingSystemModel db = new BookingSystemModel();
 
@@ -38,9 +39,11 @@ namespace Hotel_Booking_System.Controllers
         }
 
         // GET: Payments/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            Booking booking = (Booking) Session[Globals.BookingSessionVar];
+            Booking booking = db.Bookings.Find(id);
+
+            TempData["BookingId"] = booking.id;
 
             ViewBag.booking_id = new SelectList(db.Bookings, "id", "comments");
             ViewBag.customer_id = new SelectList(db.Customers, "id", "forename");
@@ -58,7 +61,7 @@ namespace Hotel_Booking_System.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,paymentMethod_id,customer_id,booking_id,amount,comments,deleted")] Payment payment)
         {
-            Booking booking = (Booking)Session[Globals.BookingSessionVar];
+            Booking booking = db.Bookings.Find((int)TempData["BookingId"]);
 
             payment.booking_id = 1;
             payment.amount = booking.paymentTotal;
@@ -67,24 +70,16 @@ namespace Hotel_Booking_System.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Bookings.Add(booking);
-                db.SaveChanges();
-
-                List<int> roomIds = (List<int>)Session[Globals.CartSessionVar];
-                foreach (int roomId in roomIds)
-                {
-                    db.RoomBookings.Add(new RoomBooking { booking_id = booking.id, room_id = roomId });
-                }
-                db.SaveChanges();
-
                 payment.booking_id = booking.id;
                 db.Payments.Add(payment);
                 db.SaveChanges();
 
-                Session[Globals.CartSessionVar] = null;
-                Session[Globals.BookingSessionVar] = null;
+                booking.paymentMadeDate = DateTime.Now;
+                db.SaveChanges();
+                
                 Session[Globals.StartDateSessionVar] = null;
                 Session[Globals.EndDateSessionVar] = null;
+                TempData.Remove("BookingId");
 
                 return RedirectToAction("Index", "Bookings");
             }
@@ -93,6 +88,12 @@ namespace Hotel_Booking_System.Controllers
             ViewBag.customer_id = new SelectList(db.Customers, "id", "forename", payment.customer_id);
             ViewBag.paymentMethod_id = new SelectList(db.PaymentMethods, "id", "name", payment.paymentMethod_id);
             return View(payment);
+        }
+
+        public ActionResult SkipPayment()
+        {
+            TempData.Remove("BookingId");
+            return RedirectToAction("Index", "Bookings");
         }
 
         // GET: Payments/Edit/5

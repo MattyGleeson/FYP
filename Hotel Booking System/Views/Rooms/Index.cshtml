@@ -25,7 +25,7 @@
                 @Html.DropDownList("RoomTypeId", null, "Select room type", htmlAttributes: new { @class = "form-control" })
             </div>
             <div class="col-md-6">
-                <input type="submit" value="Search Rooms" class="filter-search-button" />
+                <input type="submit" value="Search Rooms" class="btn btn-primary filter-search-button" />
             </div>
         </div>
     }
@@ -72,7 +72,7 @@
             @Html.DisplayFor(modelItem => item.RoomType.name)
         </td>
         <td>
-            @Html.ActionLink("Details", "Details", new { id = item.id })
+            <input type="button" value="Details" class="btn btn-primary" onclick="location.href='@Url.Action("Details", new { id = item.id })'" />
         </td>
     </tr>
 }

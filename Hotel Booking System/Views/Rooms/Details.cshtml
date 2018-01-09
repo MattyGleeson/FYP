@@ -68,10 +68,7 @@
             @Html.DisplayFor(model => model.Facilities)
         </dd>
     </dl>
-
-    <input type="submit" value="Add to cart" />
+    <input type="button" value="Back" class="btn btn-default" onclick="location.href='@Url.Action("Index")'"/>
+    <input type="submit" value="Add to cart" class="btn btn-primary" style="float: right" />
 }
 </div>
-<p>
-    @Html.ActionLink("Back to List", "Index")
-</p>

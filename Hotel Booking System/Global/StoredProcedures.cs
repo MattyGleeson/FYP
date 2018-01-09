@@ -21,7 +21,7 @@ namespace Hotel_Booking_System.Global
             {
                 using (SqlConnection con = new SqlConnection(Globals.ConnectionString()))
                 {
-                    using (SqlCommand cmd = new SqlCommand("getBookingRooms", con))
+                    using (SqlCommand cmd = new SqlCommand("sp_Get_Booking_Rooms", con))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@bookingId", SqlDbType.Int).Value = id;
@@ -67,7 +67,7 @@ namespace Hotel_Booking_System.Global
             {
                 using (SqlConnection con = new SqlConnection(Globals.ConnectionString()))
                 {
-                    using (SqlCommand cmd = new SqlCommand("deleteBooking", con))
+                    using (SqlCommand cmd = new SqlCommand("sp_Delete_Booking", con))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@bookingId", SqlDbType.Int).Value = bookingId;

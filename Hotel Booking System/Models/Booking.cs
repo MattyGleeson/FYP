@@ -12,7 +12,6 @@ namespace Hotel_Booking_System.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Booking()
         {
-            Guests = new HashSet<Guest>();
             Payments = new HashSet<Payment>();
             RoomBookings = new HashSet<RoomBooking>();
         }
@@ -20,6 +19,8 @@ namespace Hotel_Booking_System.Models
         public int id { get; set; }
 
         public int customer_id { get; set; }
+
+        public int? guest_id { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime bookingMadeDate { get; set; }
@@ -43,12 +44,13 @@ namespace Hotel_Booking_System.Models
         [StringLength(150)]
         public string comments { get; set; }
 
+        public bool cancelled { get; set; }
+
         public bool deleted { get; set; }
 
         public virtual Customer Customer { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Guest> Guests { get; set; }
+        public virtual Guest Guest { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Payment> Payments { get; set; }

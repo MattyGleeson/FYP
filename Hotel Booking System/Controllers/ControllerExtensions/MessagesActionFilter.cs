@@ -34,7 +34,7 @@ namespace Hotel_Booking_System.Controllers.ControllerExtensions
                     controller.ViewData["Toastr"] = controller.Toastr;
                 }
             }
-            else if (filterContext.Result.GetType() == typeof(RedirectToRouteResult))
+            else if (filterContext.Result.GetType() == typeof(RedirectToRouteResult) || filterContext.Result.GetType() == typeof(RedirectResult))
             {
                 if (controller.Toastr != null && controller.Toastr.ToastMessages.Count() > 0)
                 {

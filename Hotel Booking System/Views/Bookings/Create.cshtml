@@ -93,7 +93,7 @@
                                 @Html.DisplayFor(modelItem => item.RoomType.name)
                             </td>
                             <td>
-                                @Html.ActionLink("Remove from cart", "RemoveRoomFromCart", new { id = item.id })
+                                <input type="button" value="Remove" class="btn btn-danger" onclick="location.href='@Url.Action("RemoveRoomFromCart", new { id = item.id })'" />
                             </td>
                         </tr>
                     }
@@ -101,19 +101,10 @@
             </div>
         </div>
 
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Payment" class="btn btn-default" />
-            </div>
-        </div>
+        <input type="button" value="Home" class="btn btn-default" onclick="location.href='@Url.Action("Index", "Home")'" />
+        <input type="submit" value="Payment" style="float: right" class="btn btn-primary" />
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

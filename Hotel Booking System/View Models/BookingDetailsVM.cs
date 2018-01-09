@@ -7,8 +7,10 @@ using System.Web;
 
 namespace Hotel_Booking_System.View_Models
 {
-    public class BookingDetailsVM : BookingIndexVM
+    public class BookingDetailsVM : BookingVM
     {
         public IEnumerable<Room> Rooms { get; set; }
+
+        public String PaymentDate { get; set; }
     }
 }

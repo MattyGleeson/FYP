@@ -1,11 +1,12 @@
 ﻿@model Hotel_Booking_System.View_Models.BookingDetailsVM
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Cancel";
 }
 
-<h2>Details</h2>
+<h2>Cancel</h2>
 
+<h3>Are you sure you want to cancel this?</h3>
 <div>
     <h4>Booking</h4>
     <hr />
@@ -58,17 +59,6 @@
             @Html.DisplayFor(model => model.PaymentMade)
         </dd>
 
-        @if (Model.PaymentMade)
-        {
-            <dt>
-                Payment Made On
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.PaymentDate)
-            </dd>
-        }
-
         <dt>
             No. Rooms
         </dt>
@@ -119,20 +109,13 @@
             </tr>
         }
     </table>
-    <input type="button" value="Back" class="btn btn-default" onclick="location.href='@Url.Action("Index")'" />
 
-    @if (Model.IsGuest == false && Model.PaymentMade == true)
-    {
-        <input type="button" value="Check In" class="btn btn-primary" style="float:right" onclick="location.href='@Url.Action("CheckIn", new { id = Model.ModelId })'" />
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="button" value="Back" class="btn btn-default" onclick="location.href='@Url.Action("Details", new { id = Model.ModelId })'" />
+            <input type="submit" value="Delete" style="float:right" class="btn btn-danger" />
+        </div>
     }
-
-    @if (Model.PaymentMade == false)
-    {
-        <input type="button" value="Pay" class="btn btn-primary" style="float:right" onclick="location.href='@Url.Action("Create", "Payments", new { id = Model.ModelId })'" />
-    }
-
-    <input type="button" value="Cancel Booking" class="btn btn-default" style="float:right; margin-right: 10px;" onclick="location.href='@Url.Action("Cancel", new { id = Model.ModelId })'" />
 </div>
-    
-
-    @*@Html.ActionLink("Remove", "Delete", new { id = Model.ModelId })*@

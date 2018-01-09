@@ -1,0 +1,198 @@
+﻿@model Hotel_Booking_System.View_Models.BookingCheckInVM
+
+@{
+    ViewBag.Title = "CheckIn";
+}
+
+<h2>CheckIn</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Guest</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Booking.Customer.title, "Title", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 text-field">
+                    @Html.DisplayFor(model => model.Booking.Customer.title)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Booking.Customer.forename, "Forename", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 text-field">
+                    @Html.DisplayFor(model => model.Booking.Customer.forename)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Booking.Customer.surname, "Surname", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 text-field">
+                    @Html.DisplayFor(model => model.Booking.Customer.surname)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Booking.Customer.dob, "DoB", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 text-field">
+                    @Html.DisplayFor(model => model.Booking.Customer.dob.ToLongDateString())
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Booking.Customer.addressStreet, "Street", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 text-field">
+                    @Html.DisplayFor(model => model.Booking.Customer.addressStreet)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Booking.Customer.addressTown, "Town", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 text-field">
+                    @Html.DisplayFor(model => model.Booking.Customer.addressTown)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Booking.Customer.addressCounty, "County", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 text-field">
+                    @Html.DisplayFor(model => model.Booking.Customer.addressCounty)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Booking.Customer.addressPostalCode, "Post Code", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 text-field">
+                    @Html.DisplayFor(model => model.Booking.Customer.addressPostalCode)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ContactPhoneNoSelected, "Contact Phone No.", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ContactPhoneNoSelected", null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ContactPhoneNoSelected, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @Html.LabelFor(model => model.IsCustomerFromBooking, "Use this customer? (Checking this will remove the data below on check-in)", htmlAttributes: new { @class = "control-label col-md-8" })
+            <div class="col-md-4 text-field">
+                @Html.CheckBoxFor(model => model.IsCustomerFromBooking)
+            </div>
+        </div>
+
+        <hr/>
+
+        <div id="guestForm">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, "Title", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Title, Hotel_Booking_System.Global.Globals.Titles.Select(m => new SelectListItem { Value = m, Text = m }), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Forename, "Forename", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Forename, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Forename, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Surname, "Surname", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DoB, "DoB", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DoB, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DoB, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.AddressStreet, "Street", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AddressStreet, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AddressStreet, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.AddressTown, "Town", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AddressTown, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AddressTown, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.AddressCounty, "County", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AddressCounty, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AddressCounty, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.AddressPostalCode, "Post Code", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AddressPostalCode, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AddressPostalCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ContactPhoneNo, "Contact Phone No.", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ContactPhoneNo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ContactPhoneNo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#IsCustomerFromBooking").click(function () {
+            if ($(this).is(':checked')) {
+                $("#guestForm").show();
+            }
+            else {
+                $("#guestForm").hide();
+            }
+        });
+    });
+
+</script>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -159,7 +159,6 @@
     <Compile Include="Controllers\Admin\RoomPriceAdminController.cs" />
     <Compile Include="Controllers\Admin\RoomAdminController.cs" />
     <Compile Include="Controllers\Admin\RoomTypeAdminController.cs" />
-    <Compile Include="Controllers\Admin\TitleAdminController.cs" />
     <Compile Include="Controllers\BookingsController.cs" />
     <Compile Include="Controllers\ControllerExtensions\MessageControllerBase.cs" />
     <Compile Include="Controllers\ControllerExtensions\MessagesActionFilter.cs" />
@@ -171,9 +170,6 @@
     </Compile>
     <Compile Include="Global\Globals.cs" />
     <Compile Include="Global\StoredProcedures.cs" />
-    <Compile Include="Toast\ToastMessage.cs" />
-    <Compile Include="Toast\Toastr.cs" />
-    <Compile Include="Toast\ToastType.cs" />
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\BookingSystemModel.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -191,12 +187,16 @@
     <Compile Include="Models\RoomFacility.cs" />
     <Compile Include="Models\RoomPrice.cs" />
     <Compile Include="Models\RoomType.cs" />
-    <Compile Include="Models\Title.cs" />
+    <Compile Include="Toast\ToastMessage.cs" />
+    <Compile Include="Toast\Toastr.cs" />
+    <Compile Include="Toast\ToastType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View Models\BookingDetailsVM.cs" />
+    <Compile Include="View Models\BookingCheckInVM.cs" />
+    <Compile Include="View Models\BookingIndexVM.cs" />
     <Compile Include="View Models\RoomIndexVM.cs" />
     <Compile Include="View Models\AboutIndexVM.cs" />
-    <Compile Include="View Models\BookingIndexVM.cs" />
+    <Compile Include="View Models\BookingVM.cs" />
     <Compile Include="View Models\RoomDetailsVM.cs" />
     <Compile Include="View Models\HomeDatePickerVM.cs" />
   </ItemGroup>
@@ -289,10 +289,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\TitleAdmin\Create.cshtml" />
-    <Content Include="Views\TitleAdmin\Delete.cshtml" />
-    <Content Include="Views\TitleAdmin\Edit.cshtml" />
-    <Content Include="Views\TitleAdmin\Index.cshtml" />
     <Content Include="Views\FacilityTypeAdmin\Create.cshtml" />
     <Content Include="Views\FacilityTypeAdmin\Delete.cshtml" />
     <Content Include="Views\FacilityTypeAdmin\Edit.cshtml" />
@@ -342,6 +338,8 @@
     <Content Include="Views\Payments\Edit.cshtml" />
     <Content Include="Views\Payments\Index.cshtml" />
     <Content Include="Views\Shared\_Toastr.cshtml" />
+    <Content Include="Views\Bookings\CheckIn.cshtml" />
+    <Content Include="Views\Bookings\Cancel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

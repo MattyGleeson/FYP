@@ -28,7 +28,6 @@ namespace Hotel_Booking_System.Models
         public virtual DbSet<RoomFacility> RoomFacilities { get; set; }
         public virtual DbSet<RoomPrice> RoomPrices { get; set; }
         public virtual DbSet<RoomType> RoomTypes { get; set; }
-        public virtual DbSet<Title> Titles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -41,12 +40,6 @@ namespace Hotel_Booking_System.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<Booking>()
-                .HasMany(e => e.Guests)
-                .WithRequired(e => e.Booking)
-                .HasForeignKey(e => e.booking_id)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Booking>()
                 .HasMany(e => e.Payments)
                 .WithRequired(e => e.Booking)
                 .HasForeignKey(e => e.booking_id)
@@ -57,6 +50,10 @@ namespace Hotel_Booking_System.Models
                 .WithRequired(e => e.Booking)
                 .HasForeignKey(e => e.booking_id)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Customer>()
+                .Property(e => e.title)
+                .IsUnicode(false);
 
             modelBuilder.Entity<Customer>()
                 .Property(e => e.forename)
@@ -105,6 +102,11 @@ namespace Hotel_Booking_System.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Customer>()
+                .HasMany(e => e.Guests)
+                .WithOptional(e => e.Customer)
+                .HasForeignKey(e => e.customer_id);
+
+            modelBuilder.Entity<Customer>()
                 .HasMany(e => e.Payments)
                 .WithRequired(e => e.Customer)
                 .HasForeignKey(e => e.customer_id)
@@ -141,6 +143,10 @@ namespace Hotel_Booking_System.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Guest>()
+                .Property(e => e.title)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Guest>()
                 .Property(e => e.forename)
                 .IsUnicode(false);
 
@@ -167,6 +173,11 @@ namespace Hotel_Booking_System.Models
             modelBuilder.Entity<Guest>()
                 .Property(e => e.contactPhoneNo)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<Guest>()
+                .HasMany(e => e.Bookings)
+                .WithOptional(e => e.Guest)
+                .HasForeignKey(e => e.guest_id);
 
             modelBuilder.Entity<Hotel>()
                 .Property(e => e.name)
@@ -266,22 +277,6 @@ namespace Hotel_Booking_System.Models
                 .HasMany(e => e.Rooms)
                 .WithRequired(e => e.RoomType)
                 .HasForeignKey(e => e.roomType_id)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Title>()
-                .Property(e => e.name)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Title>()
-                .HasMany(e => e.Customers)
-                .WithRequired(e => e.Title)
-                .HasForeignKey(e => e.title_id)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Title>()
-                .HasMany(e => e.Guests)
-                .WithRequired(e => e.Title)
-                .HasForeignKey(e => e.title_id)
                 .WillCascadeOnDelete(false);
         }
     }

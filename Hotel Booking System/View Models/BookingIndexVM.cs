@@ -9,20 +9,22 @@ namespace Hotel_Booking_System.View_Models
 {
     public class BookingIndexVM
     {
-        public int ModelId { get; set; }
+        public IEnumerable<BookingVM> Bookings { get; set; }
 
-        public String Name { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(
+            DataFormatString = "{0:dd-MM-yyyy}",
+            ApplyFormatInEditMode = true
+            )]
+        public DateTime ChosenStartDate { get; set; }
 
-        public String Created { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(
+            DataFormatString = "{0:dd-MM-yyyy}",
+            ApplyFormatInEditMode = true
+            )]
+        public DateTime ChosenEndDate { get; set; }
 
-        public String From { get; set; }
-
-        public String To { get; set; }
-
-        public int NoRooms { get; set; }
-
-        public String Total { get; set; }
-
-        public bool PaymentMade { get; set; }
+        public String DateFilter { get; set; }
     }
 }

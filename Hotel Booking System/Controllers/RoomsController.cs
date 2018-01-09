@@ -20,29 +20,29 @@ namespace Hotel_Booking_System.Controllers
     {
         private BookingSystemModel db = new BookingSystemModel();
 
-        // GET: Rooms
-        //public ActionResult Index()
-        //{
-        //    var rooms = db.Rooms.Where(v => !v.deleted).Include(r => r.Hotel).Include(r => r.HotelFloor).Include(r => r.RoomBand).Include(r => r.RoomPrice).Include(r => r.RoomType);
-        //    return View(rooms.ToList());
-        //}
-
+        //[Route("Rooms/Index?{StartDate:DateTime}&{EndDate:StartDate}&{RoomTypeId:int}")]
+        //[HttpGet]
+        //[Route("Rooms/Index", Name = "RoomIndex")]
         public ActionResult Index(DateTime? StartDate, DateTime? EndDate, int? RoomTypeId)
         {
             ViewBag.RoomTypeId = new SelectList(db.RoomTypes, "id", "name", "Select room type");
-            if ((StartDate != null && StartDate != DateTime.MinValue && EndDate != null && EndDate != DateTime.MinValue) || (Session[Globals.StartDateSessionVar] != null && Session[Globals.EndDateSessionVar] != null))
+            if ((StartDate != null && StartDate != DateTime.MinValue && EndDate != null && EndDate != DateTime.MinValue) 
+                || (Session[Globals.StartDateSessionVar] != null && Session[Globals.EndDateSessionVar] != null))
             {
                 DateTime Start = StartDate != null ? (DateTime) StartDate : Convert.ToDateTime(Session[Globals.StartDateSessionVar]);
                 DateTime End = EndDate != null ? (DateTime) EndDate : Convert.ToDateTime(Session[Globals.EndDateSessionVar]);
 
+                if (DateTime.Compare(Start, DateTime.Now) < 0 || DateTime.Compare(End, DateTime.Now) < 0)
+                    return CreateToastAndReturn("Search Error Occured", "Cannot book past dates", ToastType.Error);
+
                 Session[Globals.StartDateSessionVar] = Start;
                 Session[Globals.EndDateSessionVar] = End;
 
-                IQueryable<Booking> bookingsQuery = db.Bookings.Where(v => !v.deleted);
+                IQueryable<Booking> bookingsQuery = db.Bookings.Where(v => !v.deleted && !v.cancelled);
 
-                bookingsQuery.Where(v => (DateTime.Compare(Start, v.startDate) >= 0 && DateTime.Compare(Start, v.endDate) <= 0));
-                bookingsQuery.Where(v => (DateTime.Compare(End, v.startDate) >= 0 && DateTime.Compare(End, v.endDate) <= 0));
-                bookingsQuery.Where(v => (DateTime.Compare(Start, v.startDate) <= 0 && DateTime.Compare(End, v.endDate) >= 0));
+                bookingsQuery = bookingsQuery.Where(v => (DateTime.Compare(Start, v.startDate) >= 0 && DateTime.Compare(Start, v.endDate) <= 0));
+                bookingsQuery = bookingsQuery.Where(v => (DateTime.Compare(End, v.startDate) >= 0 && DateTime.Compare(End, v.endDate) <= 0));
+                bookingsQuery = bookingsQuery.Where(v => (DateTime.Compare(Start, v.startDate) <= 0 && DateTime.Compare(End, v.endDate) >= 0));
 
                 List<Booking> bookings = bookingsQuery.ToList();
                 List<Room> invalidRooms = new List<Room>();
@@ -65,27 +65,24 @@ namespace Hotel_Booking_System.Controllers
                 if (((StartDate != null && StartDate != DateTime.MinValue) || (Session[Globals.StartDateSessionVar] != null)) &&
                     (EndDate == null || EndDate == DateTime.MinValue || Session[Globals.EndDateSessionVar] == null))
                 {
-                    var controller = (Request.UrlReferrer.Segments.Skip(1).Take(1).SingleOrDefault() ?? "Home").Trim('/');
-                    var action = (Request.UrlReferrer.Segments.Skip(2).Take(1).SingleOrDefault() ?? "Index").Trim('/');
-                    AddToastMessage("Search Error Occured", "Please select an end date", ToastType.Error);
-                    return RedirectToAction(action, controller);
+                    return CreateToastAndReturn("Search Error Occured", "Please select an end date", ToastType.Error);
                 }
                 else if (((EndDate != null && EndDate != DateTime.MinValue) || (Session[Globals.EndDateSessionVar] != null)) &&
                     (StartDate == null || StartDate == DateTime.MinValue || Session[Globals.StartDateSessionVar] == null))
                 {
-                    var controller = (Request.UrlReferrer.Segments.Skip(1).Take(1).SingleOrDefault() ?? "Home").Trim('/');
-                    var action = (Request.UrlReferrer.Segments.Skip(2).Take(1).SingleOrDefault() ?? "Index").Trim('/');
-                    AddToastMessage("Search Error Occured", "Please select a start date", ToastType.Error);
-                    return RedirectToAction(action, controller);
+                    return CreateToastAndReturn("Search Error Occured", "Please select a start date", ToastType.Error);
                 }
                 else
                 {
-                    IQueryable<Room> allRooms = db.Rooms.Where(v => !v.deleted);
-                    if (RoomTypeId != null)
-                        allRooms = allRooms.Where(v => v.roomType_id == RoomTypeId);
-                    return View(new RoomIndexVM { Rooms = allRooms.ToList() });
+                    return CreateToastAndReturn("Search Problem", "Please select a start and end date", ToastType.Info);
                 }
             }
+        }
+
+        private ActionResult CreateToastAndReturn(String title, String message, ToastType type)
+        {
+            AddToastMessage(title, message, type);
+            return Redirect(Request.UrlReferrer.AbsoluteUri);
         }
 
         // GET: Rooms/Details/5

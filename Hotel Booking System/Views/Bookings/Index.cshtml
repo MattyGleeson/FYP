@@ -1,11 +1,38 @@
-﻿@model IEnumerable<Hotel_Booking_System.View_Models.BookingIndexVM>
+﻿@model Hotel_Booking_System.View_Models.BookingIndexVM
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Booking Index";
 }
 
-<h2>Index</h2>
+<h2>Booking Index</h2>
+<h3>Filters</h3>
 
+<div class="row" style="padding-top: 10px;">
+    @using (Html.BeginForm("Search", "Bookings", FormMethod.Post, new { style = "overflow: hidden;" }))
+    {
+        <div class="col-md-12" style="overflow: hidden;">
+            <label class="control-label col-md-2">Start Date</label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.ChosenStartDate, new { htmlAttributes = new { @class = "form-control", @style = "display: inline-block;" } })
+            </div>
+            <label class="control-label col-md-2">End Date</label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.ChosenEndDate, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="col-md-12" style="padding-top: 10px; overflow: hidden;">
+            <label class="control-label col-md-2">Date Filter</label>
+            <div class="col-md-4">
+                @Html.DropDownList("DateFilter", null, "Select date filter", htmlAttributes: new { @class = "form-control" })
+            </div>
+            <div class="col-md-6">
+                <input type="submit" value="Search Bookings" class="btn btn-primary filter-search-button" />
+            </div>
+        </div>
+    }
+</div><br />
+
+<h3>Bookings</h3>
 <table class="table">
     <tr>
         <th>
@@ -32,7 +59,7 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Bookings) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
@@ -56,7 +83,7 @@
             @Html.DisplayFor(modelItem => item.PaymentMade)
         </td>
         <td>
-            @Html.ActionLink("Details", "Details", new { id=item.ModelId })
+            <input type="button" value="Details" class="btn btn-primary" onclick="location.href='@Url.Action("Details", new { id = item.ModelId })'" />
         </td>
     </tr>
 }

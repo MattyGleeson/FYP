@@ -7,10 +7,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Hotel_Booking_System.Models;
+using Hotel_Booking_System.Controllers.ControllerExtensions;
 
 namespace Hotel_Booking_System.Controllers.Admin
 {
-    public class FacilityTypeAdminController : Controller
+    public class FacilityTypeAdminController : MessageControllerBase
     {
         private BookingSystemModel db = new BookingSystemModel();
 
