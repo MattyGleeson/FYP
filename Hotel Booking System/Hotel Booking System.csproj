@@ -162,6 +162,7 @@
     <Compile Include="Controllers\BookingsController.cs" />
     <Compile Include="Controllers\ControllerExtensions\MessageControllerBase.cs" />
     <Compile Include="Controllers\ControllerExtensions\MessagesActionFilter.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PaymentsController.cs" />
     <Compile Include="Controllers\RoomsController.cs" />
@@ -195,6 +196,7 @@
     <Compile Include="View Models\BookingDetailsVM.cs" />
     <Compile Include="View Models\BookingCheckInVM.cs" />
     <Compile Include="View Models\BookingIndexVM.cs" />
+    <Compile Include="View Models\CreateCustomerVM.cs" />
     <Compile Include="View Models\RoomIndexVM.cs" />
     <Compile Include="View Models\AboutIndexVM.cs" />
     <Compile Include="View Models\BookingVM.cs" />
@@ -341,6 +343,11 @@
     <Content Include="Views\Shared\_Toastr.cshtml" />
     <Content Include="Views\Bookings\CheckIn.cshtml" />
     <Content Include="Views\Bookings\Cancel.cshtml" />
+    <Content Include="Views\Customers\Create.cshtml" />
+    <Content Include="Views\Customers\Delete.cshtml" />
+    <Content Include="Views\Customers\Details.cshtml" />
+    <Content Include="Views\Customers\Edit.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

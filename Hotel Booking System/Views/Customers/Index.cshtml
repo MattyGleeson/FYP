@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Hotel_Booking_System.Models.Customer>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Title
+        </th>
+        <th>
+            Forename
+        </th>
+        <th>
+            Surname
+        </th>
+        <th>
+            DoB
+        </th>
+        <th>
+            Post Code
+        </th>
+        <th>
+            Home Phone No
+        </th>
+        <th>
+            Mobile Phone No
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.forename)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.surname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dob)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.addressPostalCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.homePhoneNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.mobilePhoneNo)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>

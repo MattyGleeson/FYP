@@ -31,6 +31,8 @@ namespace Hotel_Booking_System.Models
         [StringLength(150)]
         public string additionalNotes { get; set; }
 
+        public bool active { get; set; }
+
         public bool deleted { get; set; }
 
         public virtual Hotel Hotel { get; set; }
