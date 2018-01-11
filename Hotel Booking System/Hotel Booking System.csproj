@@ -188,7 +188,6 @@
     <Compile Include="Models\RoomFacility.cs" />
     <Compile Include="Models\RoomPrice.cs" />
     <Compile Include="Models\RoomType.cs" />
-    <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="Toast\ToastMessage.cs" />
     <Compile Include="Toast\Toastr.cs" />
     <Compile Include="Toast\ToastType.cs" />
