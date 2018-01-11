@@ -23,7 +23,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.HotelFloor.id)
+            @Html.DisplayFor(model => model.HotelFloor.no)
         </dd>
 
         <dt>
@@ -39,7 +39,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.RoomPrice.id)
+            @Html.DisplayFor(model => model.RoomPrice.price)
         </dd>
 
         <dt>
@@ -59,8 +59,39 @@
         </dd>
 
     </dl>
+
+    <div class="col-md-12">
+        <table class="table">
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (Hotel_Booking_System.Models.Facility item in ViewBag.facilities)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.description)
+                    </td>
+                    <td>
+                        <input type="button" value="Remove" class="btn btn-danger" onclick="location.href='@Url.Action("RemoveFacilityFromRoom", new { id = Model.id, facilityId = item.id })'" />
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
 </div>
 <p>
+    @Html.ActionLink("Add Facility", "AddFacility", new { id = Model.id }) |
     @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

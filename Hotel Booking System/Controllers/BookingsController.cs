@@ -222,7 +222,8 @@ namespace Hotel_Booking_System.Controllers
             return View(new BookingCheckInVM
             {
                 Booking = booking,
-                BookingId = id
+                BookingId = id,
+                BookingCustomerDoB = booking.Customer.dob.ToLongDateString()
             });
         }
 

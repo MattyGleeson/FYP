@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Hotel_Booking_System.Models;
 using Hotel_Booking_System.Controllers.ControllerExtensions;
+using Hotel_Booking_System.View_Models;
 
 namespace Hotel_Booking_System.Controllers.Admin
 {
@@ -34,6 +35,10 @@ namespace Hotel_Booking_System.Controllers.Admin
             {
                 return HttpNotFound();
             }
+            IEnumerable<Facility> roomFacilities = room.RoomFacilities.Where(v => !v.deleted).Select(v => v.Facility);
+
+            ViewBag.facilities = roomFacilities;
+
             return View(room);
         }
 
@@ -67,6 +72,69 @@ namespace Hotel_Booking_System.Controllers.Admin
             ViewBag.roomBand_id = new SelectList(db.RoomBands, "id", "name", room.roomBand_id);
             ViewBag.roomPrice_id = new SelectList(db.RoomPrices, "id", "id", room.roomPrice_id);
             ViewBag.roomType_id = new SelectList(db.RoomTypes, "id", "name", room.roomType_id);
+            return View(room);
+        }
+
+        public ActionResult RemoveFacilityFromRoom(int id, int facilityId)
+        {
+            RoomFacility facility = db.RoomFacilities.Where(v => v.room_id == id && v.facility_id == facilityId).FirstOrDefault();
+
+            if (facility != null)
+            {
+                facility.deleted = true;
+                db.SaveChanges();
+                return RedirectToAction("Details", new { id = id });
+            }
+            return HttpNotFound();
+        }
+
+        public ActionResult AddFacility(int id)
+        {
+            Room room = db.Rooms.Find(id);
+
+            List<Facility> currFacilities = room.RoomFacilities.Where(v => !v.deleted).Select(vv => vv.Facility).ToList();
+
+            FacilityType type = currFacilities.Count() > 0 ? currFacilities.First().FacilityType : db.FacilityTypes.Where(v => !v.deleted && v.name == "Room").FirstOrDefault();
+
+            List<Facility> roomFacilities = db.Facilities.Where(v => !v.deleted && v.facilityType_id == type.id).ToList();
+
+            foreach (Facility f in currFacilities)
+            {
+                roomFacilities.Remove(f);
+            }
+
+            ViewBag.FacilityId = new SelectList(roomFacilities.ToList(), "id", "name");
+            Session["RoomId"] = id;
+
+            return View(new RoomFacilityVM { RoomId = id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddFacility(RoomFacilityVM roomFacility)
+        {
+            int id = (int)Session["RoomId"];
+            if (ModelState.IsValid)
+            {
+                db.RoomFacilities.Add(new RoomFacility { facility_id = roomFacility.FacilityId, room_id = id });
+                db.SaveChanges();
+                Session["RoomId"] = null;
+                return RedirectToAction("Details", new { id });
+            }
+
+            Room room = db.Rooms.Find(id);
+            List<Facility> currFacilities = room.RoomFacilities.Where(v => !v.deleted).Select(vv => vv.Facility).ToList();
+
+            FacilityType type = currFacilities.Count() > 0 ? currFacilities.First().FacilityType : db.FacilityTypes.Where(v => !v.deleted && v.name == "Room").FirstOrDefault();
+
+            List<Facility> roomFacilities = db.Facilities.Where(v => !v.deleted && v.facilityType_id == type.id).ToList();
+
+            foreach (Facility f in currFacilities)
+            {
+                roomFacilities.Remove(f);
+            }
+
+            ViewBag.FacilityId = new SelectList(roomFacilities.ToList(), "id", "name", roomFacility.FacilityId);
             return View(room);
         }
 

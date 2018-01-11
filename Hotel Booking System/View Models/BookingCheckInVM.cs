@@ -19,6 +19,11 @@ namespace Hotel_Booking_System.View_Models
 
         public string Surname { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(
+            DataFormatString = "{0:dd-MM-yyyy}",
+            ApplyFormatInEditMode = true
+            )]
         public DateTime? DoB { get; set; }
 
         public string AddressStreet { get; set; }
@@ -38,5 +43,7 @@ namespace Hotel_Booking_System.View_Models
         public int BookingId { get; set; }
 
         public string ContactPhoneNoSelected { get; set; }
+
+        public string BookingCustomerDoB { get; set; }
     }
 }
